@@ -1,12 +1,35 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+export const getApiBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('whatsapp_api_url');
+    if (saved) return saved;
+  }
+  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+};
+
+export const setApiBaseUrl = (url) => {
+  if (typeof window !== 'undefined') {
+    if (url) {
+      localStorage.setItem('whatsapp_api_url', url.trim().replace(/\/+$/, ''));
+    } else {
+      localStorage.removeItem('whatsapp_api_url');
+    }
+  }
+};
+
+export const API_BASE_URL = getApiBaseUrl();
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }
+});
+
+// Gunakan baseURL dinamis pada setiap request
+api.interceptors.request.use((config) => {
+  config.baseURL = getApiBaseUrl();
+  return config;
 });
 
 export const getStatus = async () => {
@@ -146,5 +169,4 @@ export const saveHandoverSettings = async (settings) => {
 };
 
 export default api;
-export { API_BASE_URL };
 

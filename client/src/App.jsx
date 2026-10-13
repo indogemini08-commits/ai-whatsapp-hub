@@ -10,7 +10,7 @@ import {
   clearAllChats,
   resetSession,
   getAutoReply,
-  API_BASE_URL
+  getApiBaseUrl
 } from './api';
 import { mergeIncomingMessage, settleSentMessage } from './utils/messages';
 import { getChatDisplayName } from './utils/jid';
@@ -77,7 +77,7 @@ export default function App() {
     initConnection();
 
     // Setup Socket.IO
-    socketInstance = io(API_BASE_URL, {
+    socketInstance = io(getApiBaseUrl(), {
       transports: ['websocket', 'polling']
     });
 
