@@ -1,0 +1,10 @@
+{
+  "watch": ["index.js", "whatsapp.js", "db.js", "ai.js"],
+  "ignore": [
+    "auth_session/*",
+    "data/*",
+    "*.db*",
+    "node_modules/*"
+  ],
+  "ext": "js,json"
+}
